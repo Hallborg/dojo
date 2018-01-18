@@ -1,18 +1,13 @@
 import requests
-anagrams = []
+anagrams = {}
 words = requests.get("http://codekata.com/data/wordlist.txt").text.split()
+print len(words)
 for word in words:
-  if len(anagrams) is 0:
-    anagrams.append([word])
-  else:
-    found = False
-    for i, sets in enumerate(anagrams):
-      if ''.join(sorted(word)) == ''.join(sorted(sets[0])):
-        anagrams[i].append(word)
-        found = True
-        break
+    sortedWord = "".join(sorted(word))
+    if not sortedWord in anagrams: anagrams[sortedWord] = []
+    anagrams[sortedWord].append(word)
 
-    if found is False:
-      anagrams.append([word])
-
-print len(anagrams)
+c = 0
+for k, v in anagrams.items():
+    if len(v) > 1: c += 1
+print c
